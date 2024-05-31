@@ -14,7 +14,7 @@ export default function DashBoardLayout({
       <div className="hidden md:flex h-full w-56 flex-col fixed inset-y-0 z-50">
         <Sidebar />
       </div>
-      <main className="md:pl-56 h-full">{children}</main>
+      <main className="md:pl-56 h-full mt-[80px]">{children}</main>
     </div>
   );
 }

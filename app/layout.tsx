@@ -8,6 +8,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import ToastProvider from "@/components/providers/toaster-provder";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
           <SignedIn>
             {/* <UserButton afterSignOutUrl="/" /> */}
           </SignedIn>
+          <ToastProvider />
           {children}
         </body>
       </html>
