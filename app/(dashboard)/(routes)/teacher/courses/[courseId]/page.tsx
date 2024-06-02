@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { IconBadge } from "@/components/icon-badge";
 import { LayoutDashboard } from "lucide-react";
+import TitleForm from "./_components/title-form";
+import DescriptionForm from "./_components/description-form";
 
 export default async function CourseIdPage({
   params,
@@ -54,6 +56,8 @@ export default async function CourseIdPage({
             <IconBadge icon={LayoutDashboard} />
             <h2 className="text-xl">Customize your course</h2>
           </div>
+          <TitleForm initialData={course} courseId={course.id} />
+          <DescriptionForm initialData={course} courseId={course.id} />
         </div>
       </div>
     </div>
