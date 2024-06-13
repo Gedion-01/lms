@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { Chapter, Course } from "@prisma/client";
 import { Input } from "@/components/ui/input";
+import ChaptersList from "./chapters-list";
 
 interface ChaptersFormProps {
   initialData: Course & { chapters: Chapter[] };
@@ -108,6 +109,10 @@ export default function ChaptersForm({
         !initialData.chapters.length && "text-slate-500 italic"
       )}>
         {!initialData.chapters.length && "No chapters"}
+        <ChaptersList
+        onEdit={() => {}}
+        onReorder={() => {}}
+        items={initialData.chapters || []} />
       </div>}
       {!isCreating && (
         <p className="text-xs text-muted-foreground mt-4">
