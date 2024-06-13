@@ -53,7 +53,7 @@ export default function ChaptersList({
       id: chapter.id,
       position: items.findIndex((item) => item.id === chapter.id),
     }));
-
+    
     onReorder(bulkUpdateData)
   };
 
