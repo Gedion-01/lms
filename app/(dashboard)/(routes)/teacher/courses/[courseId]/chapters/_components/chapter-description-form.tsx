@@ -18,23 +18,24 @@ import {
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea";
-import { Course } from "@prisma/client";
+import { Chapter  } from "@prisma/client";
+import { Editor } from "@/components/editor";
+import { Preview } from "@/components/preview";
 
 interface ChapterDescriptionFormProps {
-  initialData: Course;
+  initialData: Chapter;
   courseId: string;
+  chapterId: string;
 }
 
 const formSchema = z.object({
-  description: z.string().min(1, {
-    message: "Description is required",
-  }),
+  description: z.string().min(1),
 });
 
 export default function ChapterDescriptionForm({
   initialData,
   courseId,
+  chapterId
 }: ChapterDescriptionFormProps) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -52,8 +53,8 @@ export default function ChapterDescriptionForm({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Course updated");
+      await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
+      toast.success("Chapter updated");
       toggleEdit();
       router.refresh();
     } catch (error) {
@@ -63,7 +64,7 @@ export default function ChapterDescriptionForm({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Course description
+        Chapter description
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
@@ -76,14 +77,17 @@ export default function ChapterDescriptionForm({
         </Button>
       </div>
       {!isEditing && (
-        <p
+        <div
           className={cn(
             "text-sm mt-2",
             !initialData.description && "text-slate-500 italic"
           )}
         >
-          {initialData.description || "No description"}
-        </p>
+          {!initialData.description && "No description"}
+          {initialData.description && (
+            <Preview value={initialData.description} />
+          )}
+        </div>
       )}
       {isEditing && (
         <Form {...form}>
@@ -97,11 +101,7 @@ export default function ChapterDescriptionForm({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Textarea
-                      disabled={isSubmitting}
-                      placeholder="e.g. 'This course is about..."
-                      {...field}
-                    />
+                    <Editor {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

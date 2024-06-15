@@ -77,4 +77,8 @@ html, body, :root {
   body {
     @apply bg-background text-foreground;
   }
+
+}
+.ql-container {
+  font-size: 16px !important;
 }
