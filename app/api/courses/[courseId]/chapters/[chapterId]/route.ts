@@ -27,7 +27,7 @@ export async function DELETE(
     });
 
     if (!courseOwner) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized c", { status: 401 });
     }
 
     const chapter = await db.chapter.findUnique({
@@ -36,23 +36,32 @@ export async function DELETE(
         courseId: params.courseId,
       },
     });
+    console.log("chapter", chapter);
 
     if (!chapter) {
       return new NextResponse("Not Found", { status: 404 });
     }
 
     if (chapter.videoUrl) {
-      const exisitingMuxdata = await db.muxData.findFirst({
+      const existingMuxData = await db.muxData.findFirst({
         where: {
           chapterId: params.chapterId,
         },
       });
-
-      if (exisitingMuxdata) {
-        await video.assets.delete(exisitingMuxdata.assetId);
+      console.log("existingMuxData", existingMuxData);
+      if (existingMuxData) {
+        try {
+          await video.assets.delete(existingMuxData.assetId);
+        } catch (error) {
+          if ((error as any).status === 404) {
+            console.log("[PATCH] Asset not found");
+          } else {
+            throw error;
+          }
+        }
         await db.muxData.delete({
           where: {
-            id: exisitingMuxdata.id,
+            id: existingMuxData.id,
           },
         });
       }
@@ -64,6 +73,7 @@ export async function DELETE(
       },
     });
 
+    // check if the course has any published chapters
     const publishedChaptersInCourse = await db.chapter.findMany({
       where: {
         courseId: params.courseId,
@@ -71,6 +81,7 @@ export async function DELETE(
       },
     });
 
+    // if there are no published chapters, set the course to unpublished
     if (!publishedChaptersInCourse.length) {
       await db.course.update({
         where: {
@@ -81,6 +92,8 @@ export async function DELETE(
         },
       });
     }
+
+    return NextResponse.json(deletedChapter);
   } catch (error) {
     console.log("[CHAPTER_ID_DELETE]", error);
     return new NextResponse("Internal Error", { status: 500 });
@@ -129,7 +142,15 @@ export async function PATCH(
       });
 
       if (existingMuxData) {
-        await video.assets.delete(existingMuxData.assetId);
+        try {
+          await video.assets.delete(existingMuxData.assetId);
+        } catch (error) {
+          if ((error as any).status === 404) {
+            console.log("[PATCH] Asset not found");
+          } else {
+            throw error;
+          }
+        }
         await db.muxData.delete({
           where: {
             id: existingMuxData.id,
