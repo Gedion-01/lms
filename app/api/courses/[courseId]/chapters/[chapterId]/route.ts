@@ -54,7 +54,7 @@ export async function DELETE(
           await video.assets.delete(existingMuxData.assetId);
         } catch (error) {
           if ((error as any).status === 404) {
-            console.log("[PATCH] Asset not found");
+            console.log("[DELETE_CHAPTER] Asset not found");
           } else {
             throw error;
           }
