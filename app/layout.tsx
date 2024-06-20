@@ -9,6 +9,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import ToastProvider from "@/components/providers/toaster-provder";
+import { ConfettiProvider } from "@/components/providers/confetti-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,12 +27,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          {/* <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn> */}
-            {/* <UserButton afterSignOutUrl="/" /> */}
-          {/* </SignedIn> */}
+          <ConfettiProvider />
           <ToastProvider />
           {children}
         </body>
