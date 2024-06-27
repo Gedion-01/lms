@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import Categories from "./_components/categories";
 
 export default async function SearchPage() {
   const categories = await db.category.findMany({
@@ -8,7 +9,7 @@ export default async function SearchPage() {
   });
   return (
     <div className="p-6">
-      <Categories />
+      <Categories items={categories} />
     </div>
   )
 }
