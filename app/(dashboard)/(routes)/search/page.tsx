@@ -19,7 +19,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const { userId } = auth();
 
   if (!userId) {
-    redirect("/");
+    return redirect("/");
   }
   const categories = await db.category.findMany({
     orderBy: {
