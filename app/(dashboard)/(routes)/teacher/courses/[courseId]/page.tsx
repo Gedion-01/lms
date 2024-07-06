@@ -37,7 +37,7 @@ export default async function CourseIdPage({
     include: {
       chapters: {
         orderBy: {
-          postion: "asc",
+          position: "asc",
         },
       },
       attachments: {

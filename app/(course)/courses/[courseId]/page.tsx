@@ -16,7 +16,7 @@ export default async function CourseIdPage({
           isPublished: true,
         },
         orderBy: {
-          postion: "asc",
+          position: "asc",
         },
       },
     },

@@ -35,7 +35,7 @@ export default async function CourseLayout({
           },
         },
         orderBy: {
-          postion: "asc",
+          position: "asc",
         },
       },
     },

@@ -31,17 +31,17 @@ export async function POST(
         courseId: params.courseId,
       },
       orderBy: {
-        postion: "desc",
+        position: "desc",
       },
     });
 
-    const newPosition = lastChapter ? lastChapter.postion + 1 : 1;
+    const newPosition = lastChapter ? lastChapter.position + 1 : 1;
 
     const chapter = await db.chapter.create({
       data: {
         title,
         courseId: params.courseId,
-        postion: newPosition,
+        position: newPosition,
       },
     });
 
