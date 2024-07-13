@@ -5,6 +5,7 @@ export const getProgress = async (
   courseId: string
 ): Promise<number> => {
   try {
+    // Get all published chapters
     const publishedChapters = await db.chapter.findMany({
       where: {
         courseId: courseId,
@@ -15,8 +16,10 @@ export const getProgress = async (
       },
     });
 
+    // Get all published chapter ids
     const publishedChapterId = publishedChapters.map((chapter) => chapter.id);
 
+    // Get all completed chapters
     const validCompletedChapters = await db.userProgress.count({
       where: {
         userId: userId,
