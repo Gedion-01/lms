@@ -147,6 +147,13 @@ export async function PATCH(
         } catch (error) {
           if ((error as any).status === 404) {
             console.log("[PATCH] Asset not found");
+          } else if (
+            (error as any).status === 400 &&
+            (error as any).error.error.type === "invalid_parameters"
+          ) {
+            console.error(
+              "[PATCH] Invalid external asset ID, mismatching environment. Check the asset ID and environment configuration."
+            );
           } else {
             throw error;
           }
@@ -179,3 +186,5 @@ export async function PATCH(
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+// in the future mux will be deprecated and replaced with a new service
